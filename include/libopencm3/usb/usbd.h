@@ -78,6 +78,10 @@ extern const usbd_driver lm4f_usb_driver;
  *             not be changed while the device is in use. The length of this
  *             array is determined by the bNumConfigurations field in the
  *             device descriptor.
+ * @param bos Pointer to the array of USB device capabilities in the binary
+ *            object store. This must not be changed while the device is in
+ *            use. The length of this array is determined by the bNumDeviceCaps
+ *            field in the BOS descriptor.
  * @param strings Pointer to an array of strings for USB string descriptors.
  *                Referenced in @e iSomething fields, e.g. @a iManufacturer.
  *                Since a zero index means "no string", an iSomething value of
@@ -97,6 +101,7 @@ extern const usbd_driver lm4f_usb_driver;
 extern usbd_device * usbd_init(const usbd_driver *driver,
 			       const struct usb_device_descriptor *dev,
 			       const struct usb_config_descriptor *conf,
+			       const struct usb_bos_descriptor *bos,
 			       const char * const *strings, int num_strings,
 			       uint8_t *control_buffer,
 			       uint16_t control_buffer_size);
