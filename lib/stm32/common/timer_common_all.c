@@ -686,6 +686,22 @@ void timer_set_period(uint32_t timer_peripheral, uint32_t period)
 }
 
 /*---------------------------------------------------------------------------*/
+/** @brief Time Get Period
+
+Get the currently configured time period from the auto-reload register.
+
+@param[in] timer_peripheral Unsigned int32. Timer register address base @ref
+tim_reg_base
+
+@return Unsigned int32. Period in counter clock ticks.
+*/
+
+uint32_t timer_get_period(uint32_t timer_peripheral)
+{
+	return TIM_ARR(timer_peripheral);
+}
+
+/*---------------------------------------------------------------------------*/
 /** @brief Timer Enable the Output Compare Clear Function
 
 When this is enabled, the output compare signal is cleared when a high is

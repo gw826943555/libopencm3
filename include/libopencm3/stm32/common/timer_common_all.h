@@ -1188,6 +1188,7 @@ void timer_disable_preload_complementry_enable_bits(uint32_t timer_peripheral);
 void timer_set_prescaler(uint32_t timer_peripheral, uint32_t value);
 void timer_set_repetition_counter(uint32_t timer_peripheral, uint32_t value);
 void timer_set_period(uint32_t timer_peripheral, uint32_t period);
+uint32_t timer_get_period(uint32_t timer_peripheral);
 void timer_enable_oc_clear(uint32_t timer_peripheral, enum tim_oc_id oc_id);
 void timer_disable_oc_clear(uint32_t timer_peripheral, enum tim_oc_id oc_id);
 void timer_set_oc_fast_mode(uint32_t timer_peripheral, enum tim_oc_id oc_id);
