@@ -182,4 +182,20 @@
 /* Debug/Trace Peripherals */
 #define DBGMCU_BASE         0x5C001000U
 
+/* Device Electronic Signature */
+#define DESIG_FLASH_SIZE_BASE (SYSTEM_MEM_BASE + 0x1E880U)
+#define DESIG_UNIQUE_ID_BASE  (SYSTEM_MEM_BASE + 0x1E800U)
+#define DESIG_UNIQUE_ID0		MMIO32(DESIG_UNIQUE_ID_BASE)
+#define DESIG_UNIQUE_ID1		MMIO32(DESIG_UNIQUE_ID_BASE + 4)
+#define DESIG_UNIQUE_ID2		MMIO32(DESIG_UNIQUE_ID_BASE + 8)
+
+/* These aren't strictly memory map, but they need to be visible everywhere like the memory map */
+
+/* Device variant constants */
+enum device_variant {
+	STM32H72x = 0x483U, /* RM0468 */
+	STM32H74x = 0x450U, /* RM0433, RM0399 */
+	STM32H7Bx = 0x480U, /* RM0455 */
+};
+
 #endif /*LIBOPENCM3_MEMORYMAP_H*/
