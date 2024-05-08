@@ -392,6 +392,7 @@ LGPL License Terms @ref lgpl_license
 
 #define RCC_D2CCIP2R_LPTIM1SEL_SHIFT        28
 #define RCC_D2CCIP2R_CECSEL_SHIFT           22
+#define RCC_D2CCIP2R_USBSEL_MASK			0x3
 #define RCC_D2CCIP2R_USBSEL_SHIFT           20
 #define RCC_D2CCIP2R_I2C123SEL_SHIFT        12
 #define RCC_D2CCIP2R_RNGSEL_MASK            0x3
@@ -403,6 +404,10 @@ LGPL License Terms @ref lgpl_license
 /** @defgroup rcc_d2ccip2r_values RCC_D2CCIP2R Values
  * @ingroup rcc_registers
  * @{*/
+#define RCC_D2CCIP2R_USBSEL_DISABLED        0
+#define RCC_D2CCIP2R_USBSEL_PLL1Q           1
+#define RCC_D2CCIP2R_USBSEL_PLL3Q           2
+#define RCC_D2CCIP2R_USBSEL_HSI48           3
 #define RCC_D2CCIP2R_RNGSEL_HSI48           0
 #define RCC_D2CCIP2R_RNGSEL_PLL1Q           1
 #define RCC_D2CCIP2R_RNGSEL_LSE             2
@@ -436,11 +441,15 @@ enum rcc_clock_source {
 };
 
 enum rcc_osc {
-	RCC_PLL,
-	RCC_HSE,
 	RCC_HSI,
+	RCC_CSI,
+	RCC_HSI48,
+	RCC_HSE,
+	RCC_PLL1,
+	RCC_PLL2,
+	RCC_PLL3,
 	RCC_LSE,
-	RCC_LSI
+	RCC_LSI,
 };
 
 /** PLL Configuration structure. */
@@ -449,11 +458,11 @@ struct rcc_pll_config {
 	uint8_t pll_source;               /**< RCC_PLLCKSELR_PLLSRC_xxx value. */
 	uint32_t hse_frequency;           /**< User specified HSE frequency, 0 if none. */
 	struct pll_config {
-		uint8_t divm;                   /**< Pre-divider value for each PLL. 0-64 integers. */
-		uint16_t divn;                  /**< Multiplier, 0-512 integer. */
-		uint8_t divp;                   /**< Post divider for PLLP clock. */
-		uint8_t divq;                   /**< Post divider for PLLQ clock. */
-		uint8_t divr;                   /**< Post divider for PLLR clock. */
+		uint8_t divm;                 /**< Pre-divider value for each PLL. 0-64 integers. */
+		uint16_t divn;                /**< Multiplier, 0-512 integer. */
+		uint8_t divp;                 /**< Post divider for PLLP clock. */
+		uint8_t divq;                 /**< Post divider for PLLQ clock. */
+		uint8_t divr;                 /**< Post divider for PLLR clock. */
 	} pll1, pll2, pll3;               /**< PLL1-PLL3 configurations. */
 	uint8_t core_pre;                 /**< Core prescaler  note: domain 1. */
 	uint8_t hpre;                     /**< HCLK3 prescaler note: domain 1. */
@@ -707,6 +716,9 @@ enum rcc_periph_rst {
 #include <libopencm3/stm32/common/rcc_common_all.h>
 
 BEGIN_DECLS
+
+void rcc_osc_on(enum rcc_osc osc);
+void rcc_osc_off(enum rcc_osc osc);
 
 /**
  * Setup the base PLLs and clock domains for the STM32H7. This function will
