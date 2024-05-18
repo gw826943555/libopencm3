@@ -90,5 +90,8 @@ static usbd_device *stm32h750_usbd_init(void)
 	USB2(OTG_DAINTMSK) = 0xF;
 	USB2(OTG_DIEPMSK) = OTG_DIEPMSK_XFRCM;
 
+	/* Explicitly enable DP pullup */
+	USB2(OTG_DCTL) &= ~OTG_DCTL_SDIS;
+
 	return &usbd_dev;
 }
