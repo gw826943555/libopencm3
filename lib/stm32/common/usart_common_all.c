@@ -97,6 +97,9 @@ void usart_set_baudrate(uint32_t usart, uint32_t baud)
 /*---------------------------------------------------------------------------*/
 /** @brief USART Get Baudrate.
 
+Note: For LPUART, baudrates over 2**24 (~16.7 Mbaud) may overflow
+the calculation and are therefore not supported by this function.
+
 @param[in] usart unsigned 32 bit. USART block register address base @ref usart_reg_base
 @returns baud unsigned 32 bit. Baud rate specified in Hz.
 */
@@ -108,7 +111,8 @@ uint32_t usart_get_baudrate(uint32_t usart)
 
 #ifdef LPUART1
 	if (usart == LPUART1) {
-		return (256U * clock) / reg_brr;
+		return (clock / reg_brr) * 256
+			+ ((clock % reg_brr) * 256) / reg_brr;
 	}
 #endif
 
