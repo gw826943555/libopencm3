@@ -372,12 +372,14 @@ void dwc_poll(usbd_device *usbd_dev)
 		_usbd_reset(usbd_dev);
 		return;
 	}
+#if defined(STM32H7)
 	if (intsts & OTG_GINTSTS_USBRST) {
 		/* Handle the /other/ USB Reset condition */
 		REBASE(OTG_GINTSTS) = OTG_GINTSTS_USBRST | OTG_GINTSTS_RSTDET;
 		dwc_endpoints_reset(usbd_dev);
 		return;
 	}
+#endif
 
 	/*
 	 * There is not always a global interrupt flag for transmit complete.
